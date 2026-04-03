@@ -29,7 +29,9 @@ import com.saas.fastbite.ui.theme.Cream
 import com.saas.fastbite.ui.theme.DeepBrown
 import com.saas.fastbite.ui.theme.WarmAmber
 
-enum class UserRole { CLIENT, RESTAURANT, RIDER }
+import com.saas.fastbite.data.model.UserRole
+import com.saas.fastbite.screens.auth.AuthViewModel
+import com.saas.fastbite.screens.auth.AuthState
 
 data class RoleOption(
     val role: UserRole,
@@ -46,7 +48,7 @@ val roleOptions = listOf(
         description = "Order food from your\nfavourite restaurants"
     ),
     RoleOption(
-        role = UserRole.RESTAURANT,
+        role = UserRole.RESTAURANT_OWNER,
         emoji = "🍽️",
         title = "I'm a Restaurant",
         description = "Manage orders, menu\nand token wallet"
@@ -60,7 +62,17 @@ val roleOptions = listOf(
 )
 
 @Composable
-fun RoleSelectorScreen(onRoleSelected: (UserRole) -> Unit) {
+fun RoleSelectorScreen(
+    viewModel: AuthViewModel,
+    onRoleSelected: (UserRole) -> Unit
+) {
+    val authState by viewModel.authState.collectAsState()
+    
+    LaunchedEffect(authState) {
+        if (authState is AuthState.Success) {
+            // Already handled by NavGraph logic, but good to have
+        }
+    }
     var selectedRole by remember { mutableStateOf<UserRole?>(null) }
 
     Column(
@@ -131,7 +143,10 @@ fun RoleSelectorScreen(onRoleSelected: (UserRole) -> Unit) {
         // 🔽 Fixed bottom button
         Button(
             onClick = {
-                selectedRole?.let { onRoleSelected(it) }
+                selectedRole?.let { role ->
+                    viewModel.selectRole(role)
+                    onRoleSelected(role)
+                }
             },
             modifier = Modifier
                 .fillMaxWidth()

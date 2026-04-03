@@ -27,6 +27,7 @@ import androidx.compose.ui.window.Dialog
 import com.saas.fastbite.ui.theme.Cream
 import com.saas.fastbite.ui.theme.DeepBrown
 import com.saas.fastbite.ui.theme.WarmAmber
+import com.saas.fastbite.screens.shared.AddDialogField
 
 // ── Data models ───────────────────────────────────────────────────────────────
 
@@ -880,42 +881,6 @@ fun AddComboDialog(
     }
 }
 
-// ── Shared dialog field ───────────────────────────────────────────────────────
-
-@Composable
-fun AddDialogField(
-    label: String,
-    value: String,
-    onChange: (String) -> Unit,
-    keyboardType: KeyboardType = KeyboardType.Text
-) {
-    OutlinedTextField(
-        value = value,
-        onValueChange = onChange,
-        modifier = Modifier.fillMaxWidth(),
-        label = {
-            Text(
-                text = label,
-                fontSize = 13.sp,
-                color = DeepBrown.copy(alpha = 0.5f)
-            )
-        },
-        singleLine = true,
-        shape = RoundedCornerShape(12.dp),
-        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
-        colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = WarmAmber,
-            unfocusedBorderColor = DeepBrown.copy(alpha = 0.12f),
-            focusedTextColor = DeepBrown,
-            unfocusedTextColor = DeepBrown,
-            cursorColor = WarmAmber,
-            focusedContainerColor = Cream,
-            unfocusedContainerColor = Cream,
-            focusedLabelColor = WarmAmber,
-            unfocusedLabelColor = DeepBrown.copy(alpha = 0.4f)
-        )
-    )
-}
 
 // ── Delete confirm dialog ─────────────────────────────────────────────────────
 

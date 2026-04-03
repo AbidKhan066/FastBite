@@ -28,7 +28,17 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.navigationBars
 @Composable
-fun LoginScreen(onLoginSuccess: () -> Unit) {
+fun LoginScreen(
+    viewModel: AuthViewModel,
+    onLoginSuccess: () -> Unit
+) {
+    val authState by viewModel.authState.collectAsState()
+
+    LaunchedEffect(authState) {
+        if (authState is AuthState.Success || authState is AuthState.RoleRequired) {
+            onLoginSuccess()
+        }
+    }
 
     var phone by remember { mutableStateOf("") }
     var otp by remember { mutableStateOf(listOf("", "", "", "")) }
@@ -103,12 +113,10 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                         onPhoneChange = { if (it.length <= 11) phone = it },
                         onSendOtp = {
                             if (phone.length >= 10) {
-                                isLoading = true
-                                showOtp = true
-                                isLoading = false
+                                viewModel.loginWithPhone(phone)
                             }
                         },
-                        isLoading = isLoading
+                        isLoading = authState is AuthState.Loading
                     )
                 } else {
                     OtpSection(

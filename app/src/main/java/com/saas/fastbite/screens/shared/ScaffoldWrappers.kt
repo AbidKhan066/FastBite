@@ -13,7 +13,9 @@ import com.saas.fastbite.screens.client.RestaurantDetailScreen
 import com.saas.fastbite.screens.restaurant.MenuManagerScreen
 import com.saas.fastbite.screens.restaurant.RestaurantAnalyticsScreen
 import com.saas.fastbite.screens.restaurant.RestaurantDashboardScreen
+import com.saas.fastbite.screens.restaurant.RestaurantProfileScreen
 import com.saas.fastbite.screens.restaurant.TokenWalletScreen
+import com.saas.fastbite.screens.shared.ChatScreen
 import com.saas.fastbite.screens.rider.RiderDashboardScreen
 import com.saas.fastbite.screens.rider.RiderHistoryScreen
 import com.saas.fastbite.screens.rider.RiderOrderDetailScreen

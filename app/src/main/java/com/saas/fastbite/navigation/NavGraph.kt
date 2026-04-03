@@ -7,7 +7,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.saas.fastbite.screens.auth.LoginScreen
 import com.saas.fastbite.screens.auth.RoleSelectorScreen
-import com.saas.fastbite.screens.auth.UserRole
+import com.saas.fastbite.data.model.UserRole
+import com.saas.fastbite.data.model.UserRole.*
+import com.saas.fastbite.screens.auth.AuthViewModel
 import com.saas.fastbite.screens.client.CartScreen
 import com.saas.fastbite.screens.client.OrderTrackingScreen
 import com.saas.fastbite.screens.client.RestaurantDetailScreen
@@ -59,7 +61,10 @@ sealed class Screen(val route: String) {
 // ── NavGraph ──────────────────────────────────────────────────────────────────
 
 @Composable
-fun NavGraph(navController: NavHostController = rememberNavController()) {
+fun NavGraph(
+    navController: NavHostController = rememberNavController(),
+    authViewModel: AuthViewModel
+) {
     NavHost(
         navController = navController,
         startDestination = Screen.Onboarding.route
@@ -79,6 +84,7 @@ fun NavGraph(navController: NavHostController = rememberNavController()) {
 
         composable(Screen.Login.route) {
             LoginScreen(
+                viewModel = authViewModel,
                 onLoginSuccess = {
                     navController.navigate(Screen.RoleSelector.route) {
                         popUpTo(Screen.Login.route) { inclusive = true }
@@ -89,19 +95,20 @@ fun NavGraph(navController: NavHostController = rememberNavController()) {
 
         composable(Screen.RoleSelector.route) {
             RoleSelectorScreen(
+                viewModel = authViewModel,
                 onRoleSelected = { role ->
                     when (role) {
-                        UserRole.CLIENT -> {
+                        CLIENT -> {
                             navController.navigate(Screen.ClientHome.route) {
                                 popUpTo(Screen.RoleSelector.route) { inclusive = true }
                             }
                         }
-                        UserRole.RESTAURANT -> {
+                        RESTAURANT_OWNER -> {
                             navController.navigate(Screen.RestaurantDashboard.route) {
                                 popUpTo(Screen.RoleSelector.route) { inclusive = true }
                             }
                         }
-                        UserRole.RIDER -> {
+                        RIDER -> {
                             navController.navigate(Screen.RiderDashboard.route) {
                                 popUpTo(Screen.RoleSelector.route) { inclusive = true }
                             }

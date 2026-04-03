@@ -12,6 +12,11 @@ import com.saas.fastbite.navigation.NavGraph
 import com.saas.fastbite.ui.theme.FastBiteTheme
 import androidx.compose.material3.Surface
 import com.saas.fastbite.ui.theme.Cream
+import com.saas.fastbite.data.remote.supabaseClient
+import com.saas.fastbite.data.repository.AuthRepository
+import com.saas.fastbite.screens.auth.AuthViewModel
+import androidx.compose.runtime.remember
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +30,13 @@ class MainActivity : ComponentActivity() {
                     color = Cream
                 ) {
                     val navController = rememberNavController()
-                    NavGraph(navController = navController)
+                    val authRepository = remember { AuthRepository(supabaseClient) }
+                    val authViewModel: AuthViewModel = viewModel { AuthViewModel(authRepository) }
+                    
+                    NavGraph(
+                        navController = navController,
+                        authViewModel = authViewModel
+                    )
                 }
             }
         }

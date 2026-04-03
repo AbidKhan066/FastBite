@@ -24,6 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.saas.fastbite.screens.shared.AddDialogField
 import com.saas.fastbite.ui.theme.Cream
 import com.saas.fastbite.ui.theme.DeepBrown
 import com.saas.fastbite.ui.theme.WarmAmber
